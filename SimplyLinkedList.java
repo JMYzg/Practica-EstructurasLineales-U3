@@ -31,9 +31,6 @@ public class SimplyLinkedList<T> extends AbstractList<T> {
     public void addIn(int index, T element) {
         if (index < 0 || index > size - 1) {
             throw new IndexOutOfBoundsException("El índice está fuera de rango: " + index);
-        }
-        if(isEmpty()) {
-            add(element);
         } else if (index == 0) {
             Node<T> n = new Node<>(element, null);
             n.setNext(head);
@@ -57,7 +54,7 @@ public class SimplyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public void update(int index, T element) {
-        if (isEmpty() || index < 0 || index > size - 1) {
+        if (index < 0 || index > size - 1) {
             throw new IndexOutOfBoundsException("El índice está fuera de rango: " + index);
         }
         else {
@@ -87,7 +84,7 @@ public class SimplyLinkedList<T> extends AbstractList<T> {
 
     @Override
     public void remove(int index) {
-        if (isEmpty() || index < 0 || index > size - 1) {
+        if (index < 0 || index > size - 1) {
             throw new IndexOutOfBoundsException("El índice está fuera de rango: " + index);
         }
         else if (index == 0) {
