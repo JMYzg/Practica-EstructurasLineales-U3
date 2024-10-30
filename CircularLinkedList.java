@@ -1,4 +1,3 @@
-
 public class CircularLinkedList<T>
         extends AbstractList<T> {
     // Atributos
