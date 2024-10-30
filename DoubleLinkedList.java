@@ -3,17 +3,17 @@ public class DoubleLinkedList<T>
     // Atributos
     private int size = 0;
     private Node<T> first = null;
-    private Node<T> prev = null;
     private Node<T> last = null;
 
     //Métodos
     @Override
-    public void add(T element) {
-        Node<T> n = new Node<>(element, null, null);
+    public void add(T element) { // Insertar al final
+        Node<T> n = new Node<>(null, element, null);
         if (isEmpty()) {
             first = n;
         } else {
             last.next = n;
+            n.previous = last;
         }
         last = n;
         size++;
@@ -21,12 +21,32 @@ public class DoubleLinkedList<T>
 
     @Override
     public void addAt(int index, T element) {
-
+        isIndexOutOfBound(index);
+        Node<T> n = new Node<>(null, element, null);
+        if (index == 0) {
+            n.next = first;
+            first.previous = n;
+            first = n;
+        } else {
+            Node<T> aux = first;
+            for (int i = 0; i < index; i++) {
+                aux = aux.next;
+            }
+            aux.previous.next = n;
+            n.previous = aux.previous;
+            aux.previous = n;
+            n.next = aux;
+        }
+        size++;
     }
 
     @Override
     public void update(int index, T element) {
-
+        isIndexOutOfBound(index);
+        Node<T> n = first;
+        for (int i = 0; i < index; i++)
+            n = n.next;
+        n.element = element;
     }
 
     @Override
@@ -39,9 +59,22 @@ public class DoubleLinkedList<T>
     }
 
     @Override
-    void remove(int index) {
+    public void remove(int index) {
         isIndexOutOfBound(index);
-
+        if (index == 0) {
+            first = first.next;
+            first.previous = null;
+        } else {
+            Node<T> aux = first;
+            for (int i = 0; i < index; i++) {
+                aux = aux.next;
+            }
+            aux.previous.next = aux.next;
+            aux.next.previous = aux.previous;
+            aux.next = null;
+            aux.previous = null;
+        }
+        size--;
     }
 
     @Override
@@ -56,12 +89,9 @@ public class DoubleLinkedList<T>
 
     @Override
     public void clear() {
-        if(!isEmpty()) {
-            for(int i = 0; i < size - 1; i++) {
-                Node<T> aux = first;
-                first = first.next;
-                // last = last.next; ???
-                aux.next = null;
+        if (!isEmpty()) {
+            for (Node<T> aux = first; aux.next != null; aux = aux.next) {
+                aux.previous = null;
             }
             size = 0;
         }
@@ -75,14 +105,12 @@ public class DoubleLinkedList<T>
     private static class Node<T> {
         T element;
         Node<T> next;
-        Node<T> prev;
+        Node<T> previous;
 
-
-        public Node(T element, Node<T> next, Node<T> prev) {
+        public Node(Node<T> prev, T element, Node<T> next) {
             this.element = element;
             this.next = next;
-            this.prev = prev;
+            this.previous = prev;
         }
-
     }
 }
