@@ -11,7 +11,7 @@
  * <li>Vaciar la lista.
  * </ol>
  */
-public class SimplyLinkedList<T>
+public class SinglyLinkedList<T>
         extends AbstractList<T> {
     // Atributos
     private int size = 0;
